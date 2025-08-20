@@ -28,8 +28,8 @@ export const userAuth = async (
       };
     bearerToken = bearerToken.split(' ')[1];
 
-    const user : any = await jwt.verify(bearerToken, process.env.JWT_SECRET);
-    req.body.role = user.role
+    const user: any = await jwt.verify(bearerToken, process.env.JWT_SECRET);
+    (req as any).user = { role: user.role };
     next();
   } catch (error) {
     next(error);
