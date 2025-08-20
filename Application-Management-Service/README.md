@@ -24,3 +24,10 @@ Setup Instructions:
  4.Run the project:
     -npm run dev
 
+ 5.mockUsers:
+ const mockUsers = [
+  { email: 'admin@example.com', password: 'admin123', role: 'admin' },
+  { email: 'hr@example.com', password: 'hr123', role: 'hr' },
+  { email: 'reviewer@example.com', password: 'reviewer123', role: 'reviewer' }
+];
+
