@@ -4,6 +4,7 @@ dotenv.config();
 import express, { Application } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
 
 import routes from './routes';
 import ErrorHandler from './middlewares/error.middleware';
@@ -39,6 +40,22 @@ class App {
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
     this.app.use(morgan('combined', { stream: this.logStream }));
+
+    
+    // ✅ Apply rate limiting
+    const limiter = rateLimit({
+      windowMs: Number(process.env.RATE_LIMIT_WINDOW_MS) || 15 * 60 * 1000, // 15 minutes
+      max: Number(process.env.RATE_LIMIT_MAX_REQUESTS) || 100, // Limit each IP
+      message: {
+        success: false,
+        message: 'Too many requests from this IP, please try again later.',
+      },
+      standardHeaders: true,
+      legacyHeaders: false,  
+    });
+
+    this.app.use(limiter);
+
   }
 
   public initializeRoutes(): void {
