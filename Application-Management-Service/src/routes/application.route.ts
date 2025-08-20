@@ -41,7 +41,7 @@ class ApplicationRoutes {
 
         this.router.post('/', userAuth, upload.single("resume"), this.applicationController.createApplication);
 
-        this.router.get('/', userAuth, this.applicationController.getApplication);
+        this.router.get('/', userAuth, this.applicationController.getAllApplication);
 
         this.router.put('/:id', userAuth, upload.single("resume"), this.applicationController.updateApplication);
 

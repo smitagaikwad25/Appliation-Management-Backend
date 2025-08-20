@@ -40,7 +40,7 @@ class ApplicationController {
         }
     }
 
-    async getApplication(req: Request, res: Response) {
+    async getAllApplication(req: Request, res: Response) {
         try {
             if (req.body.role != ' admin' && req.body.role != 'hr' && req.body.role != 'reviewer') {
                 return res.status(401).json({
@@ -50,7 +50,7 @@ class ApplicationController {
                 });
 
             }
-            const applications = await this.applicationService.getApplication(req.query);
+            const applications = await this.applicationService.getAllApplication(req.query);
             return res.status(applications.code).json(applications);
         } catch (error: any) {
             const statusCode = error?.code || 500;

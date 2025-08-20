@@ -20,7 +20,7 @@ class ApplicationService {
         }
     }
 
-    async getApplication(query: unknown) {
+    async getAllApplication(query: unknown) {
         try {
             const { page = "1", limit = "10", status, position } = query as {
                 page?: string;
@@ -63,8 +63,7 @@ class ApplicationService {
             };
         }
     }
-
-
+    
     async updateApplication(id: number, data: unknown,) {
         try {
             const applicant = await Application.findByPk(id);
