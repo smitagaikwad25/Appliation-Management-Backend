@@ -40,11 +40,13 @@ class ApplicationRoutes {
     private routes = () => {
 
         this.router.post('/', userAuth, upload.single("resume"), this.applicationController.createApplication);
-    
+
         this.router.get('/', userAuth, this.applicationController.getApplication);
 
+        this.router.put('/:id', userAuth, upload.single("resume"), this.applicationController.updateApplication);
+
     }
-    ;
+        ;
 
     public getRoutes = (): IRouter => {
         return this.router;

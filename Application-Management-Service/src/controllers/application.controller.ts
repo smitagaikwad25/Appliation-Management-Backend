@@ -60,6 +60,43 @@ class ApplicationController {
             });
         }
     }
+
+    async updateApplication(req: Request, res: Response) {
+        try {
+            const { fullName, email, phone, position, status, role } = req.body;
+            const resumeFile = req.file;
+             const id = parseInt(req.params.id);
+  
+
+            if (role != ' admin' && role != 'hr') {
+                return res.status(401).json({
+                    code: 401,
+                    success: false,
+                    message: "You are not authorized to perform this action",
+                });
+
+            }
+            
+            const updatedApplication = await this.applicationService.updateApplication(id,{
+                fullName,
+                email,
+                phone,
+                position,
+                status
+                
+                // resumePath: resumeFile.path,
+            });
+
+            return res.status(updatedApplication.code).json(updatedApplication);
+        } catch (error: any) {
+            const statusCode = error?.code || 500;
+            return res.status(statusCode).json({
+                code: statusCode,
+                message: error?.message || "Internal Server Error",
+            });
+        }
+    }
+
 }
 
 export default ApplicationController;

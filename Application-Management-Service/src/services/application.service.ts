@@ -22,7 +22,7 @@ class ApplicationService {
 
     async getApplication(query: unknown) {
         try {
-            const { page = "1", limit = "10", status, position} = query as {
+            const { page = "1", limit = "10", status, position } = query as {
                 page?: string;
                 limit?: string;
                 status?: string;
@@ -60,6 +60,34 @@ class ApplicationService {
             throw {
                 status: HttpStatus.INTERNAL_SERVER_ERROR,
                 message: 'Failed to create application',
+            };
+        }
+    }
+
+
+    async updateApplication(id: number, data: unknown,) {
+        try {
+            const applicant = await Application.findByPk(id);
+
+            if (!applicant) {
+                return {
+                    status: HttpStatus.NOT_FOUND,
+                    message: "Applicant not found",
+                };
+            }
+
+            await applicant.update(data);
+            
+            return {
+                code: HttpStatus.CREATED,
+                success: true,
+                data: applicant,
+                message: "Application updated successfully"
+            };
+        } catch (error: any) {
+            throw {
+                status: HttpStatus.INTERNAL_SERVER_ERROR,
+                message: 'Failed to update application',
             };
         }
     }
