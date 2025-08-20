@@ -26,8 +26,8 @@ class ApplicationService {
                 page?: string;
                 limit?: string;
                 status?: string;
-                position?: string;
-                name?: string;
+                position?: string
+               
             };
 
             const pageNum = parseInt(page, 10);

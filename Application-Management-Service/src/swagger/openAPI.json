@@ -1,0 +1,235 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Application Management",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api/v1"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Application Management Service"
+    }
+  ],
+  "paths": {
+    "/admins": {
+      "post": {
+        "tags": ["Admin"],
+        "description": "Admin login",
+        "requestBody": {
+          "description": "Admin login",
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Admin" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": { "description": "Admin login successfully" },
+          "400": { "description": "Bad Request" },
+          "500": { "description": "Internal server error" }
+        }
+      }
+    },
+    "/applications": {
+      "get": {
+        "tags": ["Application"],
+        "summary": "Get all Applications with pagination and optional filters",
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 }, "description": "Page number" },
+          { "name": "limit", "in": "query", "schema": { "type": "integer", "default": 10 }, "description": "Items per page" },
+          { "name": "status", "in": "query", "schema": { "type": "string", "enum": ["applied", "reviewed", "rejected", "hired"] }, "description": "Filter by status" },
+          { "name": "position", "in": "query", "schema": { "type": "string" }, "description": "Filter by position" },
+          { "name": "name", "in": "query", "schema": { "type": "string" }, "description": "Filter by applicant name" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Applications fetched successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "success": true,
+                  "code": 200,
+                  "message": "",
+                  "data": {
+                    "total": 50,
+                    "page": 1,
+                    "pages": 5,
+                    "data": [
+                      {
+                        "id": 1,
+                        "fullName": "John Doe",
+                        "email": "john@example.com",
+                        "phone": "1234567890",
+                        "position": "Developer",
+                        "status": "applied",
+                        "resumeUrl": "uploads/resumes/1690000000000.pdf",
+                        "createdAt": "2025-08-20T07:30:00Z",
+                        "updatedAt": "2025-08-20T07:30:00Z"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad Request" },
+          "500": { "description": "Internal server error" }
+        },
+        "security": [{ "JWT": [] }]
+      },
+      "post": {
+        "tags": ["Application"],
+        "summary": "Create new application with resume upload",
+        "requestBody": {
+          "description": "Application creation with PDF resume",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fullName": { "type": "string" },
+                  "email": { "type": "string" },
+                  "phone": { "type": "string" },
+                  "position": { "type": "string" },
+                  "resume": { "type": "string", "format": "binary" }
+                },
+                "required": ["fullName", "email", "position", "resume"]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": { "description": "Application created successfully" },
+          "400": { "description": "Bad Request" },
+          "500": { "description": "Internal server error" }
+        },
+        "security": [{ "JWT": [] }]
+      }
+    },
+    "/applications/{id}": {
+      "get": {
+        "tags": ["Application"],
+        "summary": "Get a single application by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "number" } }
+        ],
+        "responses": {
+          "200": { "description": "Application fetched successfully" },
+          "400": { "description": "Bad Request" },
+          "500": { "description": "Internal server error" }
+        },
+        "security": [{ "JWT": [] }]
+      },
+      "put": {
+        "tags": ["Application"],
+        "summary": "Update application details (optionally upload resume)",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "number" } }
+        ],
+        "requestBody": {
+          "description": "Update application details",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fullName": { "type": "string" },
+                  "email": { "type": "string" },
+                  "phone": { "type": "string" },
+                  "position": { "type": "string" },
+                  "status": { "type": "string", "enum": ["applied", "reviewed", "rejected", "hired"] },
+                  "resume": { "type": "string", "format": "binary" }
+                }
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "202": { "description": "Application updated successfully" },
+          "400": { "description": "Bad Request" },
+          "500": { "description": "Internal server error" }
+        },
+        "security": [{ "JWT": [] }]
+      },
+      "delete": {
+        "tags": ["Application"],
+        "summary": "Delete an application",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "number" } }
+        ],
+        "responses": {
+          "202": { "description": "Application deleted successfully" },
+          "400": { "description": "Bad Request" },
+          "500": { "description": "Internal server error" }
+        },
+        "security": [{ "JWT": [] }]
+      }
+    },
+    "/applications/{id}/status": {
+      "put": {
+        "tags": ["Application"],
+        "summary": "Update application status",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "number" } }
+        ],
+        "requestBody": {
+          "description": "Update application status",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": { "type": "string", "enum": ["rejected", "hired"] }
+                },
+                "required": ["status"]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": { "description": "Application status updated successfully" },
+          "400": { "description": "Bad Request" },
+          "500": { "description": "Internal server error" }
+        },
+        "security": [{ "JWT": [] }]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Admin": {
+        "type": "object",
+        "properties": {
+          "email": { "type": "string" },
+          "password": { "type": "string" }
+        }
+      },
+      "Application": {
+        "type": "object",
+        "properties": {
+          "fullName": { "type": "string" },
+          "email": { "type": "string" },
+          "phone": { "type": "string" },
+          "position": { "type": "string" },
+          "status": { "type": "string", "enum": ["rejected", "hired"] },
+          "resume": { "type": "string", "format": "binary" }
+        }
+      }
+    },
+    "securitySchemes": {
+      "JWT": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  }
+}

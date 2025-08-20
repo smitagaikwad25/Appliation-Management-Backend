@@ -30,6 +30,7 @@
     "multer": "^2.0.2",
     "mysql2": "^2.1.0",
     "sequelize": "^6.3.5",
+    "swagger-ui-express": "^5.0.1",
     "ts-node-dev": "^1.0.0-pre.62",
     "winston": "^3.3.3",
     "winston-daily-rotate-file": "^4.5.0"
