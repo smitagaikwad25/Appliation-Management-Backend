@@ -3,6 +3,7 @@ import ApplicationController from "../controllers/application.controller";
 import multer from "multer";
 import path from "path";
 import { userAuth } from "../middlewares/auth.middleware";
+import ApplicationValidator from "../validators/application.validator";
 
 // Multer storage
 const storage = multer.diskStorage({
@@ -32,6 +33,7 @@ const upload = multer({
 class ApplicationRoutes {
     private applicationController = new ApplicationController();
     private router = express.Router();
+    private ApplicationValidator = new ApplicationValidator();
 
     constructor() {
         this.routes();
@@ -39,17 +41,17 @@ class ApplicationRoutes {
 
     private routes = () => {
 
-        this.router.post('/', userAuth, upload.single("resume"), this.applicationController.createApplication);
+        this.router.post('/', userAuth, upload.single("resume"), this.ApplicationValidator.createApplicationValidator, this.applicationController.createApplication);
 
         this.router.get('/', userAuth, this.applicationController.getAllApplication);
 
         this.router.get('/:id', userAuth, this.applicationController.getApplication);
 
-        this.router.put('/:id', userAuth, upload.single("resume"), this.applicationController.updateApplication);
+        this.router.put('/:id', userAuth, upload.single("resume"), this.ApplicationValidator.updateApplicationValidator,this.applicationController.updateApplication);
 
         this.router.delete('/:id', userAuth, this.applicationController.deleteApplication);
 
-        this.router.put("/:id/status", userAuth, this.applicationController.updateApplicationStatus);
+        this.router.put("/:id/status", userAuth, this.ApplicationValidator.updateApplicationStatusValidator, this.applicationController.updateApplicationStatus);
 
     }
         
