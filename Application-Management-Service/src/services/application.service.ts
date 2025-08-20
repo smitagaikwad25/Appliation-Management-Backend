@@ -63,7 +63,7 @@ class ApplicationService {
             };
         }
     }
-    
+
     async updateApplication(id: number, data: unknown,) {
         try {
             const applicant = await Application.findByPk(id);
@@ -76,7 +76,7 @@ class ApplicationService {
             }
 
             await applicant.update(data);
-            
+
             return {
                 code: HttpStatus.CREATED,
                 success: true,
@@ -85,13 +85,63 @@ class ApplicationService {
             };
         } catch (error: any) {
             throw {
-                status: HttpStatus.INTERNAL_SERVER_ERROR,
+                success: false,
+                code: HttpStatus.INTERNAL_SERVER_ERROR,
                 message: 'Failed to update application',
             };
         }
     }
 
+    async getApplication(id: number) {
+        try {
+            const application = await Application.findByPk(id);
+            if (!application) {
+                return {
+                    code: HttpStatus.NOT_FOUND,
+                    success: false,
+                    message: "Application not found",
+                };
+            }
+            return {
+                code: HttpStatus.NOT_FOUND,
+                success: false,
+                message: "Application not found",
+            };
+        } catch (error: any) {
+            throw {
+                success: false,
+                code: HttpStatus.INTERNAL_SERVER_ERROR,
+                message: 'Failed to update application',
+            };
+        }
+    }
 
+     async deleteApplication(id: number) {
+        try {
+            const application = await Application.findByPk(id);
+            if (!application) {
+                return {
+                    code: HttpStatus.NOT_FOUND,
+                    success: false,
+                    message: "Application not found",
+                };
+            }
+           await application.destroy(); 
+
+           return {
+            code: HttpStatus.OK,
+            success: true,
+            message: "Application deleted successfully",
+        }
+
+        } catch (error: any) {
+            throw {
+                success: false,
+                code: HttpStatus.INTERNAL_SERVER_ERROR,
+                message: 'Failed to delete application',
+            };
+        }
+    }
 }
 
 export default ApplicationService;

@@ -43,7 +43,11 @@ class ApplicationRoutes {
 
         this.router.get('/', userAuth, this.applicationController.getAllApplication);
 
+        this.router.get('/:id', userAuth, this.applicationController.getApplication);
+
         this.router.put('/:id', userAuth, upload.single("resume"), this.applicationController.updateApplication);
+
+        this.router.delete('/:id', userAuth, this.applicationController.deleteApplication);
 
     }
         ;

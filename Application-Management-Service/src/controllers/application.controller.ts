@@ -65,8 +65,8 @@ class ApplicationController {
         try {
             const { fullName, email, phone, position, status, role } = req.body;
             const resumeFile = req.file;
-             const id = parseInt(req.params.id);
-  
+            const id = parseInt(req.params.id);
+
 
             if (role != ' admin' && role != 'hr') {
                 return res.status(401).json({
@@ -76,18 +76,70 @@ class ApplicationController {
                 });
 
             }
-            
-            const updatedApplication = await this.applicationService.updateApplication(id,{
+
+            const updatedApplication = await this.applicationService.updateApplication(id, {
                 fullName,
                 email,
                 phone,
                 position,
                 status
-                
+
                 // resumePath: resumeFile.path,
             });
 
             return res.status(updatedApplication.code).json(updatedApplication);
+        } catch (error: any) {
+            const statusCode = error?.code || 500;
+            return res.status(statusCode).json({
+                code: statusCode,
+                message: error?.message || "Internal Server Error",
+            });
+        }
+    }
+
+    async getApplication(req: Request, res: Response) {
+        try {
+            const id = parseInt(req.params.id);
+
+            if (req.body.role != ' admin' && req.body.role != 'hr' && req.body.role != 'reviewer') {
+                return res.status(401).json({
+                    code: 401,
+                    success: false,
+                    message: "You are not authorized to perform this action",
+                });
+
+            }
+
+            const application = await this.applicationService.getApplication(id);
+
+            return res.status(application.code).json(application);
+
+        } catch (error: any) {
+            const statusCode = error?.code || 500;
+            return res.status(statusCode).json({
+                code: statusCode,
+                message: error?.message || "Internal Server Error",
+            });
+        }
+    }
+
+    async deleteApplication(req: Request, res: Response) {
+        try {
+            const id = parseInt(req.params.id);
+
+            if (req.body.role != ' admin' && req.body.role != 'hr') {
+                return res.status(401).json({
+                    code: 401,
+                    success: false,
+                    message: "You are not authorized to perform this action",
+                });
+
+            }
+
+            const application = await this.applicationService.deleteApplication(id);
+
+            return res.status(application.code).json(application);
+
         } catch (error: any) {
             const statusCode = error?.code || 500;
             return res.status(statusCode).json({
