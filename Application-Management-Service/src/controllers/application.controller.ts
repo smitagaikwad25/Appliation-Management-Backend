@@ -42,7 +42,7 @@ class ApplicationController {
 
     async getAllApplication(req: Request, res: Response) {
         try {
-            if (req.body.role != ' admin' && req.body.role != 'hr' && req.body.role != 'reviewer') {
+            if (req.body.role != 'admin' && req.body.role != 'hr' && req.body.role != 'reviewer') {
                 return res.status(401).json({
                     code: 401,
                     success: false,
