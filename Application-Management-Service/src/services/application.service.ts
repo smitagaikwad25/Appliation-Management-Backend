@@ -1,3 +1,4 @@
+import { date } from "@hapi/joi";
 import { Application } from "../config/database";  // ✅ already initialized here
 import HttpStatus from 'http-status-codes';
 
@@ -104,8 +105,9 @@ class ApplicationService {
                 };
             }
             return {
-                code: HttpStatus.NOT_FOUND,
-                success: false,
+                code: HttpStatus.OK,
+                success: true,
+                date:application,
                 message: "Application not found",
             };
         } catch (error: any) {

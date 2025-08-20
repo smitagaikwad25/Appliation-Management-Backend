@@ -171,7 +171,9 @@ class ApplicationController {
                 return res.status(400).json({ code: 400, success: false, message: "Invalid application ID" });
             }
 
-            if (!role || (role !== 'admin' && role !== 'reviewer')) {
+            console.log("====================", role)
+
+            if (role !== 'admin' && role !== 'reviewer') {
                 return res.status(401).json({ code: 401, success: false, message: "You are not authorized" });
             }
 
