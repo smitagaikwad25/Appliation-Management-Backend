@@ -49,7 +49,7 @@ class ApplicationRoutes {
 
         this.router.delete('/:id', userAuth, this.applicationController.deleteApplication);
 
-        this.router.put("/:id/status", this.applicationController.updateApplicationStatus);
+        this.router.put("/:id/status", userAuth, this.applicationController.updateApplicationStatus);
 
     }
         
