@@ -23,4 +23,5 @@ Setup Instructions:
 
  4.Run the project:
     -npm run dev
-
+ 5.wgger url :
+  - http://localhost:3000/api/v1/api-docs
