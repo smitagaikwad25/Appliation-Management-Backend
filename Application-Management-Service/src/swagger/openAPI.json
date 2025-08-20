@@ -43,8 +43,7 @@
           { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 }, "description": "Page number" },
           { "name": "limit", "in": "query", "schema": { "type": "integer", "default": 10 }, "description": "Items per page" },
           { "name": "status", "in": "query", "schema": { "type": "string", "enum": ["applied", "reviewed", "rejected", "hired"] }, "description": "Filter by status" },
-          { "name": "position", "in": "query", "schema": { "type": "string" }, "description": "Filter by position" },
-          { "name": "name", "in": "query", "schema": { "type": "string" }, "description": "Filter by applicant name" }
+          { "name": "position", "in": "query", "schema": { "type": "string" }, "description": "Filter by position" }
         ],
         "responses": {
           "200": {
