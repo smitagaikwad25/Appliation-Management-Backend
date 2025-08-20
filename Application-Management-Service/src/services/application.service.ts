@@ -1,6 +1,6 @@
-import { Application } from '../models/application.model';  // ✅ already initialized here
+import { Application } from "../config/database";  // ✅ already initialized here
 import HttpStatus from 'http-status-codes';
-import { ApplicationCreationAttributes } from '../models/application.model';
+
 
 class ApplicationService {
     async createApplication(data: unknown) {

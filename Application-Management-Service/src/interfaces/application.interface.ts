@@ -1,7 +1,7 @@
 // export type ApplicationStatus = "applied" | "reviewed" | "rejected" | "hired";
 
 // export interface IApplication {
-//   application_id: string;
+//   id: number;
 //   fullName: string;
 //   email: string;
 //   phone?: string;

@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export { DataTypes } from 'sequelize';
+import { initApplicationModel } from '../models/application.model'; 
 
 const logger = Logger.logger;
 
@@ -36,6 +37,8 @@ sequelize
   .catch((error) => {
     logger.error('Could not connect to the database.', error);
   });
+
+ export const Application = initApplicationModel(sequelize);
 
 sequelize.sync();
 
