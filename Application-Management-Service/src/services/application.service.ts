@@ -5,12 +5,13 @@ import HttpStatus from 'http-status-codes';
 class ApplicationService {
     async createApplication(data: unknown) {
         try {
+            
             const application = await Application.create(data);
             return {
                 code: HttpStatus.CREATED,
                 success: true,
                 data: application,
-                message: "Apllication ncreated sucessfully"
+                message: "Application created sucessfully"
             };
         } catch (error: any) {
             throw {
