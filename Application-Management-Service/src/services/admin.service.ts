@@ -4,6 +4,7 @@ import admin from '../models/admin';
 import  jwt  from 'jsonwebtoken';
 import HttpStatus from 'http-status-codes';
 
+
 // Mock users with roles
 const mockUsers = [
   { email: 'admin@example.com', password: 'admin123', role: 'admin' },

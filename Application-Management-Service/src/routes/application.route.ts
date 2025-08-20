@@ -2,6 +2,7 @@ import express, { IRouter } from "express";
 import ApplicationController  from "../controllers/application.controller"; 
 import multer from "multer";
 import path from "path";
+import { userAuth } from "../middlewares/auth.middleware";
 
 // Multer storage
 const storage = multer.diskStorage({
@@ -39,7 +40,7 @@ class ApplicationRoutes {
   private routes = () => {
     
     this.router.post(
-      "/",
+      "/", userAuth,
       upload.single("resume"),
       this.applicationController.createApplication
     );
