@@ -9,7 +9,7 @@ class ApplicationController {
             const { fullName, email, phone, position, role } = req.body;
             const resumeFile = req.file;
 
-            if (role != ' admin' && role != 'hr') {
+            if (role != 'admin' && role != 'hr') {
                 return res.status(401).json({
                     code: 401,
                     success: false,
@@ -107,7 +107,7 @@ class ApplicationController {
         try {
             const id = parseInt(req.params.id);
 
-            if (req.body.role != ' admin' && req.body.role != 'hr' && req.body.role != 'reviewer') {
+            if (req.body.role != 'admin' && req.body.role != 'hr' && req.body.role != 'reviewer') {
                 return res.status(401).json({
                     code: 401,
                     success: false,
@@ -133,7 +133,7 @@ class ApplicationController {
         try {
             const id = parseInt(req.params.id);
 
-            if (req.body.role != ' admin' && req.body.role != 'hr') {
+            if (req.body.role != 'admin' && req.body.role != 'hr') {
                 return res.status(401).json({
                     code: 401,
                     success: false,
