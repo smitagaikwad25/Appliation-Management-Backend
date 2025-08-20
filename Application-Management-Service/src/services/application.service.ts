@@ -111,12 +111,12 @@ class ApplicationService {
             throw {
                 success: false,
                 code: HttpStatus.INTERNAL_SERVER_ERROR,
-                message: 'Failed to update application',
+                message: 'Failed to get application',
             };
         }
     }
 
-     async deleteApplication(id: number) {
+    async deleteApplication(id: number) {
         try {
             const application = await Application.findByPk(id);
             if (!application) {
@@ -126,13 +126,13 @@ class ApplicationService {
                     message: "Application not found",
                 };
             }
-           await application.destroy(); 
+            await application.destroy();
 
-           return {
-            code: HttpStatus.OK,
-            success: true,
-            message: "Application deleted successfully",
-        }
+            return {
+                code: HttpStatus.OK,
+                success: true,
+                message: "Application deleted successfully",
+            }
 
         } catch (error: any) {
             throw {
@@ -142,6 +142,28 @@ class ApplicationService {
             };
         }
     }
+
+    async updateApplicationStatus(id: number, status: "hired" | "rejected") {
+        const application = await Application.findByPk(id);
+        if (!application) {
+            return {
+                success: false,
+                code: HttpStatus.NOT_FOUND,
+                message: "Application not found",
+            };
+        }
+
+        application.status = status;
+        await application.save();
+
+        return {
+            code: 200,
+            success: true,
+            message: "Application status updated successfully",
+            data: application,
+        };
+    }
+
 }
 
 export default ApplicationService;
