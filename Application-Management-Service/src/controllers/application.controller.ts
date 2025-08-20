@@ -39,6 +39,27 @@ class ApplicationController {
             });
         }
     }
+
+    async getApplication(req: Request, res: Response) {
+        try {
+            if (req.body.role != ' admin' && req.body.role != 'hr' && req.body.role != 'reviewer') {
+                return res.status(401).json({
+                    code: 401,
+                    success: false,
+                    message: "You are not authorized to perform this action",
+                });
+
+            }
+            const applications = await this.applicationService.getApplication(req.query);
+            return res.status(applications.code).json(applications);
+        } catch (error: any) {
+            const statusCode = error?.code || 500;
+            return res.status(statusCode).json({
+                code: statusCode,
+                message: error?.message || "Internal Server Error",
+            });
+        }
+    }
 }
 
 export default ApplicationController;
