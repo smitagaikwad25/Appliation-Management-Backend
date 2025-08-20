@@ -1,5 +1,6 @@
 import { DataTypes, Model, Optional, Sequelize } from "sequelize";
 
+
 export type ApplicationStatus = "applied" | "reviewed" | "rejected" | "hired";
 
 export interface ApplicationAttributes {
